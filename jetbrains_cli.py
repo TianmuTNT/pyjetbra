@@ -4,7 +4,6 @@
 import os
 import json
 import shutil
-import subprocess
 import inquirer
 from rich.console import Console
 from rich.panel import Panel

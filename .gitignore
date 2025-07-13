@@ -45,12 +45,6 @@ out/
 
 # JetBrains/ja-netfilter
 jetbra/config-jetbrains/power.conf
-jetbra/config-jetbrains/ca.crt
-jetbra/config-jetbrains/ca.key
-jetbra/vmoptions/*.vmoptions
-jetbra/scripts/*.vbs
-jetbra/scripts/*.sh
-jetbra/ja-netfilter.jar
 
 # License
 license.txt 
