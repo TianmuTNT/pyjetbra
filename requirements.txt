@@ -1,0 +1,6 @@
+cryptography>=41.0.0
+pycryptodome>=3.19.0
+rich>=13.0.0
+click>=8.0.0
+inquirer>=3.0.0
+pyperclip>=1.8.0 
