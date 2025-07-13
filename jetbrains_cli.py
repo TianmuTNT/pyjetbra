@@ -11,6 +11,7 @@ from rich.table import Table
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.prompt import Confirm
 from rich import box
+import requests
 
 from cert_util import CertUtil
 from code_util import CodeUtil
@@ -23,28 +24,7 @@ console = Console()
 class JetBrainsCLI:
     """JetBrains许可证生成CLI工具"""
     
-    # JetBrains产品列表（从官方API获取）
-    PRODUCTS = {
-        "CL": {"name": "CLion", "description": "C/C++ IDE"},
-        "CDGC": {"name": "Cadence Credit", "description": "Cadence Credit"},
-        "DB": {"name": "DataGrip", "description": "Database IDE"},
-        "DS": {"name": "DataSpell", "description": "Data Science IDE"},
-        "DLGC": {"name": "Datalore Credit", "description": "Datalore Credit"},
-        "DLP": {"name": "Datalore Professional", "description": "Datalore Professional"},
-        "GO": {"name": "GoLand", "description": "Go IDE"},
-        "II": {"name": "IntelliJ IDEA Ultimate", "description": "Java IDE"},
-        "AIP": {"name": "JetBrains AI Pro", "description": "AI Pro"},
-        "AIPU": {"name": "JetBrains AI Ultimate", "description": "AI Ultimate"},
-        "ACD": {"name": "JetBrains Academy", "description": "Academy"},
-        "PS": {"name": "PhpStorm", "description": "PHP IDE"},
-        "PC": {"name": "PyCharm", "description": "Python IDE"},
-        "RS0": {"name": "ReSharper", "description": "ReSharper"},
-        "RC": {"name": "ReSharper C++", "description": "ReSharper C++"},
-        "RD": {"name": "Rider", "description": ".NET IDE"},
-        "RM": {"name": "RubyMine", "description": "Ruby IDE"},
-        "RR": {"name": "RustRover", "description": "Rust IDE"},
-        "WS": {"name": "WebStorm", "description": "JavaScript IDE"}
-    }
+    API_URL = "https://account.jetbrains.com/services/rest/coupon/v1/redeem/items/personal"
     
     def __init__(self):
         self.selected_products = []
@@ -61,63 +41,67 @@ class JetBrainsCLI:
         """
         console.print(Panel(banner, style="bold blue", box=box.DOUBLE))
     
+    def fetch_all_products(self):
+        try:
+            resp = requests.get(self.API_URL, timeout=10)
+            data = resp.json()
+            products = []
+            for group in ["products", "packs", "plugins"]:
+                for item in data.get(group, []):
+                    products.append({
+                        "code": item["code"],
+                        "name": item["name"],
+                        "group": group
+                    })
+            return products
+        except Exception as e:
+            console.print(f"[red]获取产品列表失败：{e}，将使用本地内置产品列表[/red]")
+            # fallback: 只用原有IDE列表
+            return [
+                {"code": "II", "name": "IntelliJ IDEA Ultimate", "group": "products"},
+                {"code": "CL", "name": "CLion", "group": "products"},
+                {"code": "PS", "name": "PhpStorm", "group": "products"},
+                {"code": "GO", "name": "GoLand", "group": "products"},
+                {"code": "PC", "name": "PyCharm", "group": "products"},
+                {"code": "WS", "name": "WebStorm", "group": "products"},
+                {"code": "RD", "name": "Rider", "group": "products"},
+                {"code": "DB", "name": "DataGrip", "group": "products"},
+                {"code": "RM", "name": "RubyMine", "group": "products"},
+                {"code": "DS", "name": "DataSpell", "group": "products"},
+                {"code": "RR", "name": "RustRover", "group": "products"},
+            ]
+    
     def show_product_selection(self):
-        """产品选择界面"""
-        console.print("\n[bold cyan]第一步：选择要激活的产品[/bold cyan]")
-        console.print("您可以选择多个产品，也可以一键选择全部产品。\n")
-        
-        # 创建产品表格
+        console.print("\n[bold cyan]第一步：选择要激活的产品（支持IDE、Pack、插件等）[/bold cyan]")
+        console.print("所有产品均来自JetBrains官方API，支持多选和全选。\n")
+        all_products = self.fetch_all_products()
+        # 构建分组展示
         table = Table(title="可用的JetBrains产品", show_header=True, header_style="bold magenta")
-        table.add_column("代码", style="cyan", width=8)
-        table.add_column("产品名称", style="green", width=20)
-        table.add_column("描述", style="yellow", width=30)
-        
-        for code, info in self.PRODUCTS.items():
-            table.add_row(code, info["name"], info["description"])
-        
+        table.add_column("代码", style="cyan", width=10)
+        table.add_column("类型", style="yellow", width=10)
+        table.add_column("名称", style="green", width=40)
+        for item in all_products:
+            table.add_row(item["code"], item["group"], item["name"])
         console.print(table)
-        
-        # 产品选择选项
+        # 构建多选菜单
+        choices = [(f"[{item['group']}] {item['name']}", item["code"]) for item in all_products]
         questions = [
             inquirer.Checkbox(
                 'products',
                 message="请选择要激活的产品（空格选择，回车确认）",
-                choices=[
-                    ("全部产品", "ALL"),
-                    ("CLion", "CL"),
-                    ("Cadence Credit", "CDGC"),
-                    ("DataGrip", "DB"),
-                    ("DataSpell", "DS"),
-                    ("Datalore Credit", "DLGC"),
-                    ("Datalore Professional", "DLP"),
-                    ("GoLand", "GO"),
-                    ("IntelliJ IDEA Ultimate", "II"),
-                    ("JetBrains AI Pro", "AIP"),
-                    ("JetBrains AI Ultimate", "AIPU"),
-                    ("JetBrains Academy", "ACD"),
-                    ("PhpStorm", "PS"),
-                    ("PyCharm", "PC"),
-                    ("ReSharper", "RS0"),
-                    ("ReSharper C++", "RC"),
-                    ("Rider", "RD"),
-                    ("RubyMine", "RM"),
-                    ("RustRover", "RR"),
-                    ("WebStorm", "WS")
-                ]
+                choices=[("全部产品", "ALL")] + choices
             )
         ]
-        
         answers = inquirer.prompt(questions)
         if answers and answers['products']:
-            self.selected_products = answers['products']
-            if "ALL" in self.selected_products:
-                self.selected_products = list(self.PRODUCTS.keys())
-            
+            if "ALL" in answers['products']:
+                self.selected_products = [item["code"] for item in all_products]
+            else:
+                self.selected_products = answers['products']
             console.print(f"\n[green]✓ 已选择 {len(self.selected_products)} 个产品[/green]")
         else:
             console.print("\n[red]错误：请至少选择一个产品[/red]")
             return False
-        
         return True
     
     def show_license_customization(self):
