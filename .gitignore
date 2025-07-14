@@ -45,6 +45,7 @@ out/
 
 # JetBrains/ja-netfilter
 jetbra/config-jetbrains/power.conf
+jetbra/vmoptions/
 
 # License
 license.txt 
