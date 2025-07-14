@@ -1,10 +1,12 @@
 # pyjetbra - JetBrains全家桶 全自动激活/Keygen/自定义License 工具
 
+> **🎉 如果本项目对你有帮助，请点个 Star 支持一下，谢谢！**
+
 > **仅供学习研究用途，请支持正版软件！**
 
 ## 项目简介
 
-本项目是一个全自动、可交互、完全自定义的 JetBrains License 及 power.conf 生成工具。支持一键生成证书、license、power.conf，并自动安装到 JetBrains/ja-netfilter 环境。**所有产品列表均实时从 JetBrains 官方 API 动态获取，支持 IDE、Pack、插件等全部产品。**
+本项目是一个全自动、可交互、完全自定义的 JetBrains License 及 power.conf 生成工具。支持一键生成License、power.conf，并自动安装到 JetBrains/ja-netfilter 环境。**所有产品列表均实时从 JetBrains 官方 API 动态获取，支持 IDE、Pack、插件等全部产品。**
 
 ## 主要特性
 
