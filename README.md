@@ -63,3 +63,5 @@ python jetbrains_cli.py
 ## 贡献
 
 - 欢迎提交 PR 贡献代码，完善 Linux/macOS 支持，优化交互体验。
+
+[![Star History Chart](https://api.star-history.com/svg?repos=TianmuTNT/pyjetbra&type=Date)](https://www.star-history.com/#TianmuTNT/pyjetbra&Date)
