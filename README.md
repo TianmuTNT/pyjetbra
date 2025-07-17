@@ -1,85 +1,85 @@
-# pyjetbra - JetBrains License/PowerConf Auto Generator
+# pyjetbra - Fully Automated Activator/Keygen/Custom License Tool for JetBrains All Products Pack
 
 [简体中文](./README_zh.md)
 
-> **If you find this project useful, please give it a Star! Thank you! 🌟**
+> **If this project is helpful to you, please give it a Star to show your support, thank you! 🌟**
 
-> **For learning and research only. Please support genuine software!**
+> **For learning and research purposes only, please support genuine software!**
 
-## Introduction
+## Project Introduction
 
-pyjetbra is a fully automated, interactive, and highly customizable tool for generating JetBrains licenses and power.conf files. It supports one-click generation of certificates, licenses, and power.conf, and can automatically install them into JetBrains/ja-netfilter environments. **All product lists are dynamically fetched from the JetBrains official API, supporting all IDEs, Packs, Plugins, etc.**
+This project is a fully automated, interactive, and completely customizable tool for generating JetBrains Licenses and `power.conf` files. It supports one-click generation of the License and `power.conf`, and automatically installs them into the `JetBrains/ja-netfilter` environment. **The list of all products is dynamically retrieved in real-time from the official JetBrains API, supporting all products including IDEs, Packs, and plugins.**
 
-- Language: Python 3
+- Main Language: Python 3
 - License: Apache-2.0
 - Repository: https://github.com/TianmuTNT/pyjetbra
 
-## Features
+## Main Features
 
-- ✅ **Fully automated CLI**: Beautiful interactive command-line interface, easy to use
-- ✅ **Fully customizable**: All license fields (owner, email, expiry, ID, etc.) are customizable
-- ✅ **Dynamic product list**: All activatable products are fetched from JetBrains official API, including IDEs, Packs, Plugins, etc.
-- ✅ **Multi-select/Select all**: Support for multi-select or select all products
-- ✅ **One-click generation**: Automatically generates certificate, license, and power.conf
-- ✅ **Auto install**: Automatically copies power.conf and configures environment variables (Windows/Linux/macOS)
-- ✅ **Auto copy license**: License is automatically copied to clipboard after generation
-- ✅ **Compatible with ja-netfilter**: Works with ja-netfilter power plugin
-- ✅ **Clean code structure**: Easy for secondary development and contributions
+- ✅ **Fully Automated CLI**: A beautiful and interactive command-line interface that is easy to operate.
+- ✅ **Fully Customizable**: All license information (licensee name, email, expiration date, ID, etc.) can be customized.
+- ✅ **Dynamic Product Fetching**: All activatable products are fetched in real-time from the official JetBrains API, supporting IDEs, Packs, plugins, etc.
+- ✅ **Multi-select/Select All**: Supports selecting multiple products or all products with a single click.
+- ✅ **One-Click Generation**: Automatically generates License and `power.conf`.
+- ✅ **Automatic Installation**: Automatically copies `power.conf` and configures environment variables (Windows/Linux/macOS).
+- ✅ **Auto-copy License**: Automatically copies the generated license to the clipboard.
+- ✅ **ja-netfilter Compatible**: Works in conjunction with the ja-netfilter power plugin.
+- ✅ **Clear Code Structure**: Easy for secondary development and contributions.
 
-## Usage
+## How to Use
 
-### 1. Install dependencies
+### 1. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Run the CLI tool
+### 2. Run the CLI Tool
 
 ```bash
 python jetbrains_cli.py
 ```
 
-### 3. Interactive workflow
+### 3. Interactive Flow
 
-1. **Select products to activate** (multi-select/select all, all products from JetBrains API)
-2. **Customize license info** (all fields customizable: owner, email, expiry, ID, restriction, etc.)
-3. **Choose output directory, whether to regenerate certificate, and whether to show details**
-4. **Auto-generate certificate, license, power.conf**
-5. **Optional: Auto-install to JetBrains/ja-netfilter environment** (auto copy power.conf and set env vars)
-6. **License is auto-copied to clipboard** for easy activation
+1.  **Select the products to activate** (supports multi-select/select all, all products are from the official JetBrains API).
+2.  **Customize license information** (licensee name, email, expiration date, ID, restriction notes, etc., are all customizable).
+3.  **Choose the output directory, whether to regenerate certificates, and whether to display detailed information.**
+4.  **Automatically generates License and `power.conf`.**
+5.  **Optional: Automatically install into the `JetBrains/ja-netfilter` environment** (automatically copies `power.conf` and configures environment variables).
+6.  **The license is automatically copied to the clipboard** for direct activation.
 
-### 4. Generated files
+### 4. Generated Files
 
 - `out/certificates/ca.crt` - Certificate file
 - `out/certificates/ca.key` - Private key file
-- `out/power.conf` - Power plugin config
-- `out/license.txt` - License activation code
+- `out/power.conf` - power plugin configuration
+- `out/license.txt` - license activation code
 
-## Customization
+## Full Customization Features Explained
 
-- **Product selection**: All products are fetched from JetBrains API, including IDEs, Packs, Plugins, etc., with multi-select/select all
-- **License info**: All fields (owner, assignee, email, expiry, ID, restriction, etc.) are fully customizable
-- **Output directory**: Customizable output path
-- **Certificate generation**: Option to regenerate certificate
-- **Auto install**: Optionally auto-install and configure power.conf and environment variables
+- **Product Selection**: All products are fetched in real-time from the official JetBrains API, supporting all products including IDEs, Packs, and plugins. Supports multi-select/select all.
+- **License Information**: All fields such as licensee name, assignee, email, expiration date, ID, and restriction notes are fully customizable.
+- **Output Directory**: You can customize the save path for the generated files.
+- **Certificate Generation**: You can choose whether to regenerate the certificates.
+- **Automatic Installation**: Optional automatic installation, which configures `power.conf` and environment variables automatically.
 
-## Platform Support & Notes
+## Platform Support and Notes
 
-- **Tested and works well on Windows 10/11 only.**
-- **Linux/macOS code is implemented but NOT tested; it may not work in many cases.**
-- **If you encounter issues on Linux/macOS, PRs and contributions are welcome!**
+- **This tool has only been tested and works well on Windows 10/11.**
+- **The code includes automatic adaptation for Linux/macOS, but it has not been actually tested and may not work correctly in many cases.**
+- **If you encounter problems on Linux/macOS, you are welcome to submit an issue or a PR to contribute improvements!**
 
 ## Disclaimer
 
-- This project is for learning, research, and technical exchange only. Do not use for any commercial or illegal purposes.
-- Please support genuine software and respect intellectual property!
+- This project is intended for learning, research, and technical exchange purposes only. Do not use it for any commercial or illegal purposes.
+- Please support genuine software and respect intellectual property rights!
 - The author is not responsible for any consequences arising from the use of this project.
 
 ## Contributing
 
-- Issues and PRs are welcome, especially to improve Linux/macOS support and user experience.
-- The codebase is clean and easy to extend.
+- Contributions via issues and PRs are welcome to improve Linux/macOS support and optimize the user experience.
+- The code structure is clear and easy for secondary development.
 
 ## License
 
