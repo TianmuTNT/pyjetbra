@@ -109,6 +109,11 @@ LANGUAGES = {
         'find_jetbra_fail': 'Error: jetbra directory not found, please download and extract jetbra.zip',
         'cancel': 'Operation cancelled by user',
         'program_error': 'Program error:',
+        'about': 'About',
+        'about_title': 'About This Tool',
+        'about_repo': 'Repository: https://github.com/TianmuTNT/pyjetbra',
+        'about_license': 'License: Apache-2.0',
+        'about_disclaimer': 'Disclaimer: This project is intended for learning, research, and technical exchange purposes only. Do not use it for any commercial or illegal purposes. Please support genuine software and respect intellectual property rights! The author is not responsible for any consequences arising from the use of this project.',
     },
     'zh': {
         'main_menu': '主菜单：请选择要执行的操作',
@@ -197,6 +202,11 @@ LANGUAGES = {
         'find_jetbra_fail': '错误：未找到jetbra目录，请确保已下载jetbra.zip并解压',
         'cancel': '用户取消操作',
         'program_error': '程序错误：',
+        'about': '关于',
+        'about_title': '关于本工具',
+        'about_repo': '仓库地址：https://github.com/TianmuTNT/pyjetbra',
+        'about_license': '协议：Apache-2.0',
+        'about_disclaimer': '免责声明：本项目仅供学习、研究与技术交流使用，请勿用于任何商业或非法用途。请支持正版软件，尊重知识产权！因使用本项目产生的任何后果，作者概不负责。',
     }
 }
 
@@ -606,6 +616,14 @@ class JetBrainsCLI:
         
         return None
     
+    def show_about(self):
+        """显示关于信息"""
+        console.print(Panel(f"[bold]{self.L['about_title']}[/bold]\n\n"
+                           f"{self.L['about_repo']}\n"
+                           f"{self.L['about_license']}\n\n"
+                           f"{self.L['about_disclaimer']}",
+                           title=self.L['about'], style="bold blue", box=box.ROUNDED))
+    
     def main_menu(self):
         """主菜单，分离生成与安装功能"""
         while True:
@@ -618,6 +636,7 @@ class JetBrainsCLI:
                         (self.L['generate'], "generate"),
                         (self.L['install'], "install"),
                         (self.L['language'], "language"),
+                        (self.L['about'], "about"),
                         (self.L['exit'], "exit")
                     ]
                 )
@@ -632,6 +651,8 @@ class JetBrainsCLI:
                 self.handle_install()
             elif answers['action'] == 'language':
                 self.handle_language()
+            elif answers['action'] == 'about':
+                self.show_about()
 
     def handle_generate(self):
         # 第一步：产品选择
