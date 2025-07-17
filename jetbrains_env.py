@@ -83,7 +83,7 @@ def set_system_env(var, value):
 # VBS风格弹窗
 
 def msgbox(msg):
-    ctypes.windll.user32.MessageBoxW(0, msg, "JetBrains 环境变量配置", 0)
+    ctypes.windll.user32.MessageBoxW(0, msg, "JetBrains Environment Tool", 0)
 
 # 卸载所有用户和系统环境变量
 
