@@ -48,4 +48,7 @@ jetbra/config-jetbrains/power.conf
 jetbra/vmoptions/
 
 # License
-license.txt 
+license.txt
+
+# New config.json
+config.json 

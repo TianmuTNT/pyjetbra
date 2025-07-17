@@ -20,6 +20,204 @@ from jetbrains_env import uninstall_all_users, install_all_users
 
 console = Console()
 
+# 在 JetBrainsCLI 类前添加多语言支持
+LANGUAGES = {
+    'en': {
+        'main_menu': 'Main Menu: Please select an action',
+        'generate': 'Generate License and power.conf',
+        'install': 'Auto Install to JetBrains',
+        'language': 'Language/语言',
+        'exit': 'Exit',
+        'exit_msg': 'Exited. Goodbye!',
+        'select_language': 'Select language',
+        'lang_en': 'English',
+        'lang_zh': '简体中文',
+        'product_step': 'Step 1: Select products to activate (supports IDE, Pack, plugins, etc.)',
+        'product_api': 'All products are from JetBrains official API, supports multi-select and select all.',
+        'product_table': 'Available JetBrains Products',
+        'product_code': 'Code',
+        'product_group': 'Type',
+        'product_name': 'Name',
+        'product_select': 'Please select products to activate (space to select, enter to confirm)',
+        'product_all': 'All Products',
+        'product_selected': 'Selected {count} products',
+        'product_error': 'Error: Please select at least one product',
+        'license_step': 'Step 2: Customize license information',
+        'license_tip': 'You can customize all license information.',
+        'licensee_name': 'Licensee Name',
+        'assignee_name': 'Assignee Name',
+        'assignee_email': 'Assignee Email',
+        'expire_date': 'License Expiry Date (YYYY-MM-DD)',
+        'license_restriction': 'License Restriction',
+        'license_id': 'License ID',
+        'license_set': 'License information set',
+        'license_error': 'Error: Failed to set license information',
+        'gen_step': 'Step 3: Generation options',
+        'output_dir': 'Output directory',
+        'regenerate_cert': 'Regenerate certificate (if exists)?',
+        'show_license': 'Show generated license content?',
+        'gen_license': 'Generating license and config files...',
+        'gen_cert': 'Generating RSA certificate and private key...',
+        'cert_done': 'Certificate generated',
+        'cert_exist': 'Using existing certificate',
+        'gen_power': 'Generating power.conf config file...',
+        'power_done': 'power.conf generated',
+        'gen_license2': 'Generating license...',
+        'license_done': 'License generated',
+        'gen_code': 'Generating activation code...',
+        'code_done': 'Activation code generated',
+        'gen_error': 'Error:',
+        'gen_success': 'Generation complete!',
+        'file_table': 'Generated Files',
+        'file': 'File',
+        'path': 'Path',
+        'desc': 'Description',
+        'cert_file': 'Certificate',
+        'key_file': 'Private Key',
+        'power_file': 'Power Config',
+        'license_file': 'License',
+        'cert_desc': 'RSA certificate file',
+        'key_desc': 'RSA private key file',
+        'power_desc': 'Power plugin config',
+        'license_desc': 'License file',
+        'license_panel': 'License:',
+        'license_info': 'License Info:',
+        'license_id2': 'License ID',
+        'licensee': 'Licensee',
+        'assignee': 'Assignee',
+        'email': 'Email',
+        'expiry': 'Expiry Date',
+        'product_count': 'Product Count',
+        'usage': 'Usage:',
+        'usage1': '1. Copy power.conf to jetbra/config-jetbrains directory',
+        'usage2': '2. Use the generated license to activate JetBrains products',
+        'usage3': '3. Keep certificate and private key safe',
+        'not_found': 'Not found power.conf or license.txt, please generate first!',
+        'auto_install': 'Start auto installation...',
+        'find_jetbra': 'Found jetbra directory:',
+        'copy_power': 'Copying power.conf file...',
+        'copy_done': 'power.conf copied',
+        'uninstall_env': 'Uninstalling old environment variables...',
+        'install_env': 'Installing new environment variables...',
+        'copy_clipboard': 'License copied to clipboard',
+        'install_done': 'Installation complete!',
+        'open_jetbrains': 'Now you can open JetBrains product and paste the license to activate',
+        'pyperclip_tip': 'Tip: Install pyperclip to auto copy license to clipboard',
+        'license_content': 'License content:',
+        'auto_install_fail': 'Auto installation failed:',
+        'manual_install': 'Please complete installation manually',
+        'find_jetbra_fail': 'Error: jetbra directory not found, please download and extract jetbra.zip',
+        'cancel': 'Operation cancelled by user',
+        'program_error': 'Program error:',
+    },
+    'zh': {
+        'main_menu': '主菜单：请选择要执行的操作',
+        'generate': '生成 License 和 power.conf',
+        'install': '自动安装到 JetBrains',
+        'language': 'Language/语言',
+        'exit': '退出',
+        'exit_msg': '已退出程序，再见！',
+        'select_language': '请选择语言',
+        'lang_en': 'English',
+        'lang_zh': '简体中文',
+        'product_step': '第一步：选择要激活的产品（支持IDE、Pack、插件等）',
+        'product_api': '所有产品均来自JetBrains官方API，支持多选和全选。',
+        'product_table': '可用的JetBrains产品',
+        'product_code': '代码',
+        'product_group': '类型',
+        'product_name': '名称',
+        'product_select': '请选择要激活的产品（空格选择，回车确认）',
+        'product_all': '全部产品',
+        'product_selected': '已选择 {count} 个产品',
+        'product_error': '错误：请至少选择一个产品',
+        'license_step': '第二步：自定义许可证信息',
+        'license_tip': '您可以自定义许可证的所有信息。',
+        'licensee_name': '许可证持有者名称',
+        'assignee_name': '被授权人姓名',
+        'assignee_email': '被授权人邮箱',
+        'expire_date': '许可证过期日期 (YYYY-MM-DD)',
+        'license_restriction': '许可证限制说明',
+        'license_id': '许可证ID',
+        'license_set': '许可证信息已设置',
+        'license_error': '错误：许可证信息设置失败',
+        'gen_step': '第三步：生成选项',
+        'output_dir': '输出目录',
+        'regenerate_cert': '是否重新生成证书（如果已存在）',
+        'show_license': '是否显示生成的许可证内容',
+        'gen_license': '正在生成许可证和配置文件...',
+        'gen_cert': '生成RSA证书和私钥...',
+        'cert_done': '证书生成完成',
+        'cert_exist': '使用现有证书',
+        'gen_power': '生成power.conf配置文件...',
+        'power_done': 'power.conf生成完成',
+        'gen_license2': '生成许可证...',
+        'license_done': '许可证生成完成',
+        'gen_code': '生成激活码...',
+        'code_done': '激活码生成完成',
+        'gen_error': '错误：',
+        'gen_success': '生成完成！',
+        'file_table': '生成的文件',
+        'file': '文件',
+        'path': '路径',
+        'desc': '说明',
+        'cert_file': '证书',
+        'key_file': '私钥',
+        'power_file': 'Power配置',
+        'license_file': 'License',
+        'cert_desc': 'RSA证书文件',
+        'key_desc': 'RSA私钥文件',
+        'power_desc': 'Power插件配置',
+        'license_desc': 'License文件',
+        'license_panel': 'License：',
+        'license_info': '许可证信息：',
+        'license_id2': '许可证ID',
+        'licensee': '持有者',
+        'assignee': '被授权人',
+        'email': '邮箱',
+        'expiry': '过期日期',
+        'product_count': '产品数量',
+        'usage': '使用说明：',
+        'usage1': '1. 将 power.conf 文件复制到 jetbra/config-jetbrains 目录',
+        'usage2': '2. 使用生成的license激活JetBrains产品',
+        'usage3': '3. 证书和私钥文件请妥善保管',
+        'not_found': '未找到 power.conf 或 license.txt，请先生成！',
+        'auto_install': '开始自动安装...',
+        'find_jetbra': '找到jetbra目录：',
+        'copy_power': '复制power.conf文件...',
+        'copy_done': 'power.conf复制完成',
+        'uninstall_env': '正在卸载旧环境变量...',
+        'install_env': '正在安装新环境变量...',
+        'copy_clipboard': 'License已复制到剪贴板',
+        'install_done': '安装完成！',
+        'open_jetbrains': '现在可以打开JetBrains产品，粘贴license进行激活',
+        'pyperclip_tip': '提示：安装pyperclip可以自动复制license到剪贴板',
+        'license_content': 'License内容：',
+        'auto_install_fail': '自动安装失败：',
+        'manual_install': '请手动完成安装步骤',
+        'find_jetbra_fail': '错误：未找到jetbra目录，请确保已下载jetbra.zip并解压',
+        'cancel': '用户取消操作',
+        'program_error': '程序错误：',
+    }
+}
+
+CONFIG_FILE = "config.json"
+DEFAULT_CONFIG = {"language": "en"}
+
+def load_config():
+    if os.path.exists(CONFIG_FILE):
+        try:
+            with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception:
+            pass
+    # 写入默认配置
+    with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
+        json.dump(DEFAULT_CONFIG, f, ensure_ascii=False, indent=2)
+    return DEFAULT_CONFIG.copy()
+
+def save_config(config):
+    with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
+        json.dump(config, f, ensure_ascii=False, indent=2)
 
 class JetBrainsCLI:
     """JetBrains许可证生成CLI工具"""
@@ -30,6 +228,15 @@ class JetBrainsCLI:
         self.selected_products = []
         self.license_info = {}
         self.output_dir = "out"
+        self.config = load_config()
+        self.language = self.config.get('language', 'en')
+        self.L = LANGUAGES[self.language]
+    
+    def set_language(self, lang):
+        self.language = lang
+        self.L = LANGUAGES[self.language]
+        self.config['language'] = lang
+        save_config(self.config)
     
     def show_banner(self):
         """显示欢迎横幅"""
@@ -399,31 +606,77 @@ class JetBrainsCLI:
         
         return None
     
+    def main_menu(self):
+        """主菜单，分离生成与安装功能"""
+        while True:
+            console.print(f"\n[bold magenta]{self.L['main_menu']}[/bold magenta]")
+            questions = [
+                inquirer.List(
+                    'action',
+                    message=self.L['main_menu'],
+                    choices=[
+                        (self.L['generate'], "generate"),
+                        (self.L['install'], "install"),
+                        (self.L['language'], "language"),
+                        (self.L['exit'], "exit")
+                    ]
+                )
+            ]
+            answers = inquirer.prompt(questions)
+            if not answers or answers['action'] == 'exit':
+                console.print(f"\n[bold yellow]{self.L['exit_msg']}[/bold yellow]")
+                break
+            elif answers['action'] == 'generate':
+                self.handle_generate()
+            elif answers['action'] == 'install':
+                self.handle_install()
+            elif answers['action'] == 'language':
+                self.handle_language()
+
+    def handle_generate(self):
+        # 第一步：产品选择
+        if not self.show_product_selection():
+            return
+        # 第二步：许可证自定义
+        if not self.show_license_customization():
+            return
+        # 第三步：生成选项
+        if not self.show_generation_options():
+            return
+        # 第四步：生成许可证
+        success, license_json, active_code = self.generate_license()
+        if success:
+            self.show_results(license_json, active_code)
+        else:
+            console.print("\n[red]生成失败，请检查错误信息[/red]")
+
+    def handle_install(self):
+        # 检查必要文件是否存在
+        power_conf = os.path.join(self.output_dir, "power.conf")
+        license_txt = os.path.join(self.output_dir, "license.txt")
+        if not os.path.exists(power_conf) or not os.path.exists(license_txt):
+            console.print("[red]未找到 power.conf 或 license.txt，请先生成！[/red]")
+            return
+        self.auto_install()
+
+    def handle_language(self):
+        questions = [
+            inquirer.List(
+                'lang',
+                message=self.L['select_language'],
+                choices=[(self.L['lang_en'], 'en'), (self.L['lang_zh'], 'zh')]
+            )
+        ]
+        answers = inquirer.prompt(questions)
+        if answers and answers['lang'] in LANGUAGES:
+            self.set_language(answers['lang'])
+            console.print(f"[green]Language switched to {self.L['lang_en'] if self.language == 'en' else self.L['lang_zh']}[/green]")
+
     def run(self):
         """运行CLI工具"""
         self.show_banner()
-        
         try:
-            # 第一步：产品选择
-            if not self.show_product_selection():
-                return
-            
-            # 第二步：许可证自定义
-            if not self.show_license_customization():
-                return
-            
-            # 第三步：生成选项
-            if not self.show_generation_options():
-                return
-            
-            # 第四步：生成许可证
-            success, license_json, active_code = self.generate_license()
-            
-            if success:
-                self.show_results(license_json, active_code)
-            else:
-                console.print("\n[red]生成失败，请检查错误信息[/red]")
-                
+            self.main_menu()
         except KeyboardInterrupt:
             console.print("\n[yellow]用户取消操作[/yellow]")
         except Exception as e:
