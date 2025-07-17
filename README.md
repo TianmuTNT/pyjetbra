@@ -1,67 +1,88 @@
-# pyjetbra - JetBrains全家桶 全自动激活/Keygen/自定义License 工具
+# pyjetbra - JetBrains License/PowerConf Auto Generator
 
-> **🎉 如果本项目对你有帮助，请点个 Star 支持一下，谢谢！**
+[简体中文](./README_zh.md)
 
-> **仅供学习研究用途，请支持正版软件！**
+> **If you find this project useful, please give it a Star! Thank you! 🌟**
 
-## 项目简介
+> **For learning and research only. Please support genuine software!**
 
-本项目是一个全自动、可交互、完全自定义的 JetBrains License 及 power.conf 生成工具。支持一键生成License、power.conf，并自动安装到 JetBrains/ja-netfilter 环境。**所有产品列表均实时从 JetBrains 官方 API 动态获取，支持 IDE、Pack、插件等全部产品。**
+## Introduction
 
-## 主要特性
+pyjetbra is a fully automated, interactive, and highly customizable tool for generating JetBrains licenses and power.conf files. It supports one-click generation of certificates, licenses, and power.conf, and can automatically install them into JetBrains/ja-netfilter environments. **All product lists are dynamically fetched from the JetBrains official API, supporting all IDEs, Packs, Plugins, etc.**
 
-- ✅ **全自动 CLI**：美观的交互式命令行界面，操作简单
-- ✅ **完全自定义**：所有许可证信息（持有者、邮箱、过期时间、ID等）均可自定义
-- ✅ **产品动态获取**：所有可激活产品均实时从 JetBrains 官方 API 获取，支持 IDE、Pack、插件等
-- ✅ **多选/全选**：支持多选产品或一键全选
-- ✅ **一键生成**：自动License、power.conf
-- ✅ **自动安装**：自动复制 power.conf 并配置环境变量（Windows/Linux/macOS）
-- ✅ **兼容 ja-netfilter**：与 ja-netfilter power 插件配合使用
+- Language: Python 3
+- License: Apache-2.0
+- Repository: https://github.com/TianmuTNT/pyjetbra
 
-## 使用方法
+## Features
 
-### 1. 安装依赖
+- ✅ **Fully automated CLI**: Beautiful interactive command-line interface, easy to use
+- ✅ **Fully customizable**: All license fields (owner, email, expiry, ID, etc.) are customizable
+- ✅ **Dynamic product list**: All activatable products are fetched from JetBrains official API, including IDEs, Packs, Plugins, etc.
+- ✅ **Multi-select/Select all**: Support for multi-select or select all products
+- ✅ **One-click generation**: Automatically generates certificate, license, and power.conf
+- ✅ **Auto install**: Automatically copies power.conf and configures environment variables (Windows/Linux/macOS)
+- ✅ **Auto copy license**: License is automatically copied to clipboard after generation
+- ✅ **Compatible with ja-netfilter**: Works with ja-netfilter power plugin
+- ✅ **Clean code structure**: Easy for secondary development and contributions
+
+## Usage
+
+### 1. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. 运行 CLI 工具
+### 2. Run the CLI tool
 
 ```bash
 python jetbrains_cli.py
 ```
 
-### 3. 交互流程
+### 3. Interactive workflow
 
-1. **选择要激活的产品**（支持多选/全选，所有产品均来自 JetBrains 官方 API）
-2. **自定义许可证信息**（持有者、邮箱、过期时间、ID、限制说明等全部可自定义）
-3. **选择输出目录、是否重新生成证书、是否显示详细信息**
-4. **自动生成License、power.conf**
-5. **可选：自动安装到 JetBrains/ja-netfilter 环境**（自动复制 power.conf 并配置环境变量）
-6. **License自动复制到剪贴板**，可直接粘贴激活
+1. **Select products to activate** (multi-select/select all, all products from JetBrains API)
+2. **Customize license info** (all fields customizable: owner, email, expiry, ID, restriction, etc.)
+3. **Choose output directory, whether to regenerate certificate, and whether to show details**
+4. **Auto-generate certificate, license, power.conf**
+5. **Optional: Auto-install to JetBrains/ja-netfilter environment** (auto copy power.conf and set env vars)
+6. **License is auto-copied to clipboard** for easy activation
 
-### 4. 生成文件
+### 4. Generated files
 
-- `out/certificates/ca.crt` - 证书文件
-- `out/certificates/ca.key` - 私钥文件
-- `out/power.conf` - power 插件配置
-- `out/license.txt` - license 激活码
+- `out/certificates/ca.crt` - Certificate file
+- `out/certificates/ca.key` - Private key file
+- `out/power.conf` - Power plugin config
+- `out/license.txt` - License activation code
 
-## 平台支持与注意事项
+## Customization
 
-- **本工具仅在 Windows 10/11 上测试通过，运行良好。**
-- **Linux/macOS 代码已实现自动适配，但未实际测试，很多情况下可能无法正常工作。**
-- **如在 Linux/macOS 下遇到问题，欢迎 PR 贡献改进！**
+- **Product selection**: All products are fetched from JetBrains API, including IDEs, Packs, Plugins, etc., with multi-select/select all
+- **License info**: All fields (owner, assignee, email, expiry, ID, restriction, etc.) are fully customizable
+- **Output directory**: Customizable output path
+- **Certificate generation**: Option to regenerate certificate
+- **Auto install**: Optionally auto-install and configure power.conf and environment variables
 
-## 免责声明
+## Platform Support & Notes
 
-- 本项目仅供学习、研究、技术交流使用，请勿用于任何商业或非法用途。
-- 请支持正版软件，尊重知识产权！
-- 使用本项目造成的一切后果与作者无关。
+- **Tested and works well on Windows 10/11 only.**
+- **Linux/macOS code is implemented but NOT tested; it may not work in many cases.**
+- **If you encounter issues on Linux/macOS, PRs and contributions are welcome!**
 
-## 贡献
+## Disclaimer
 
-- 欢迎提交 PR 贡献代码，完善 Linux/macOS 支持，优化交互体验。
+- This project is for learning, research, and technical exchange only. Do not use for any commercial or illegal purposes.
+- Please support genuine software and respect intellectual property!
+- The author is not responsible for any consequences arising from the use of this project.
+
+## Contributing
+
+- Issues and PRs are welcome, especially to improve Linux/macOS support and user experience.
+- The codebase is clean and easy to extend.
+
+## License
+
+This project is licensed under the [Apache-2.0 License](./LICENSE).
 
 [![Star History Chart](https://api.star-history.com/svg?repos=TianmuTNT/pyjetbra&type=Date)](https://www.star-history.com/#TianmuTNT/pyjetbra&Date)
