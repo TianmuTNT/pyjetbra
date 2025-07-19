@@ -223,51 +223,38 @@ class JetBrainsCLI:
         return False
     
     def generate_license(self):
-        """生成许可证和配置文件"""
-        console.print("\n[bold cyan]正在生成许可证和配置文件...[/bold cyan]")
-        
+        console.print(f"\n[bold cyan]{self.L['gen_license']}[/bold cyan]")
         try:
-            # 创建输出目录
             os.makedirs(self.output_dir, exist_ok=True)
             cert_dir = os.path.join(self.output_dir, "certificates")
             os.makedirs(cert_dir, exist_ok=True)
-            
             cert_file = os.path.join(cert_dir, "ca.crt")
             key_file = os.path.join(cert_dir, "ca.key")
-            
-            # 生成证书
             with Progress(
                 SpinnerColumn(),
                 TextColumn("[progress.description]{task.description}"),
                 console=console
             ) as progress:
-                task = progress.add_task("生成RSA证书和私钥...", total=None)
-                
+                task = progress.add_task(self.L['gen_cert'], total=None)
                 if not os.path.exists(cert_file) or self.regenerate_cert:
                     CertUtil.gen_cert(cert_file, key_file)
-                    progress.update(task, description="✓ 证书生成完成")
+                    progress.update(task, description=f"✓ {self.L['cert_done']}")
                 else:
-                    progress.update(task, description="✓ 使用现有证书")
-            
-            # 生成power.conf
+                    progress.update(task, description=f"✓ {self.L['cert_exist']}")
             with Progress(
                 SpinnerColumn(),
                 TextColumn("[progress.description]{task.description}"),
                 console=console
             ) as progress:
-                task = progress.add_task("生成power.conf配置文件...", total=None)
+                task = progress.add_task(self.L['gen_power'], total=None)
                 PowerConfigUtil.gen_power_plugin_config(cert_file, self.output_dir)
-                progress.update(task, description="✓ power.conf生成完成")
-            
-            # 生成许可证
+                progress.update(task, description=f"✓ {self.L['power_done']}")
             with Progress(
                 SpinnerColumn(),
                 TextColumn("[progress.description]{task.description}"),
                 console=console
             ) as progress:
-                task = progress.add_task("生成许可证...", total=None)
-                
-                # 创建自定义许可证
+                task = progress.add_task(self.L['gen_license2'], total=None)
                 license_data = {
                     "licenseId": self.license_info["license_id"],
                     "licenseeName": self.license_info["licensee_name"],
@@ -283,8 +270,6 @@ class JetBrainsCLI:
                     "autoProlongated": True,
                     "isAutoProlongated": True
                 }
-                
-                # 添加产品授权
                 for product_code in self.selected_products:
                     product_auth = {
                         "code": product_code,
@@ -293,29 +278,22 @@ class JetBrainsCLI:
                         "extend": True
                     }
                     license_data["products"].append(product_auth)
-                
                 license_json = json.dumps(license_data, ensure_ascii=False, indent=2)
-                progress.update(task, description="✓ 许可证生成完成")
-            
-            # 生成激活码
+                progress.update(task, description=f"✓ {self.L['license_done']}")
             with Progress(
                 SpinnerColumn(),
                 TextColumn("[progress.description]{task.description}"),
                 console=console
             ) as progress:
-                task = progress.add_task("生成激活码...", total=None)
+                task = progress.add_task(self.L['gen_code'], total=None)
                 active_code = CodeUtil.gen_active_code(cert_file, key_file, license_json)
-                progress.update(task, description="✓ 激活码生成完成")
-            
-            # 保存license到文件
+                progress.update(task, description=f"✓ {self.L['code_done']}")
             license_file = os.path.join(self.output_dir, "license.txt")
             with open(license_file, 'w', encoding='utf-8') as f:
                 f.write(active_code)
-            
             return True, license_json, active_code
-            
         except Exception as e:
-            console.print(f"\n[red]错误：{e}[/red]")
+            console.print(f"\n[red]{self.L['gen_error']} {e}[/red]")
             return False, None, None
     
     def show_results(self, license_json: str, active_code: str):
@@ -458,21 +436,17 @@ class JetBrainsCLI:
                 self.show_about()
 
     def handle_generate(self):
-        # 第一步：产品选择
         if not self.show_product_selection():
             return
-        # 第二步：许可证自定义
         if not self.show_license_customization():
             return
-        # 第三步：生成选项
         if not self.show_generation_options():
             return
-        # 第四步：生成许可证
         success, license_json, active_code = self.generate_license()
         if success:
             self.show_results(license_json, active_code)
         else:
-            console.print("\n[red]生成失败，请检查错误信息[/red]")
+            console.print(f"\n[red]{self.L['gen_error']} {self.L['gen_error']}[/red]")
 
     def handle_install(self):
         power_conf = os.path.join(self.output_dir, "power.conf")
@@ -496,14 +470,13 @@ class JetBrainsCLI:
             console.print(f"[green]Language switched to {self.L['lang_en'] if self.language == 'en' else self.L['lang_zh']}[/green]")
 
     def run(self):
-        """运行CLI工具"""
         self.show_banner()
         try:
             self.main_menu()
         except KeyboardInterrupt:
-            console.print("\n[yellow]用户取消操作[/yellow]")
+            console.print(f"\n[yellow]{self.L['cancel']}[/yellow]")
         except Exception as e:
-            console.print(f"\n[red]程序错误：{e}[/red]")
+            console.print(f"\n[red]{self.L['program_error']} {e}[/red]")
 
 
 def main():
